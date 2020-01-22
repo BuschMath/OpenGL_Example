@@ -63,23 +63,29 @@ int main()
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
 	float vertices[] = {
+		// Triangle 1
 		// Lower left point
 		-0.5f, -0.5f, 0.0f,
 		// Lower right point
 		0.5f, -0.5f, 0.0f,
-		// Top right point
-		0.5f, 0.5f, 0.0f,
+		// Top point
+		0.0f, 0.5f, 0.0f,
+		// Triangle 2
 		// Top left point
-		-0.5f, 0.5f, 0.0f
+		0.5f, 0.5f, 0.0f,
+		// Top right point
+		1.0f, 0.5f, 0.0f,
+		// Bottom point
+		1.0f, -0.5f, 0.0f
 	};
 
 	// ************************************************
 	// Set rectangle indices
 	// ************************************************
-	unsigned int indices[] = {
-		2, 1, 3,		// First triangle
-		1, 0, 3			// Second triangle
-	};
+//	unsigned int indices[] = {
+//		2, 1, 3,		// First triangle
+//		1, 0, 3			// Second triangle
+//	};
 
 	// ************************************************
 	// Vertex buffer object
@@ -122,8 +128,8 @@ int main()
 	// ************************************************
 	// Bind data to EBO with active VAO
 	// ************************************************
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 	// Deactivate VAO
 	glBindVertexArray(0);
@@ -234,7 +240,8 @@ int main()
 
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		// Load image buffer to display
