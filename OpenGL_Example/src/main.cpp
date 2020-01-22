@@ -3,6 +3,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+// Local headers ********************************
+#include "Shader.h"
+
 // Global constants ********************************
 const int windowWidth = 800;
 const int windowHeight = 600;
@@ -132,100 +135,12 @@ int main()
 	glBindVertexArray(0);
 
 	// ************************************************
-	// Vertex shader
-	// ************************************************
-	// Code for vertex shader
-	const char* vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"layout (location = 1) in vec3 aColor;\n"
-		"\n"
-		"out vec3 ourColor;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"   gl_Position = vec4(aPos, 1.0);\n"
-		"	ourColor = aColor;\n"
-		"}\0";
-
-	// Create shader object
-	unsigned int vertexShader;
-	// Assign a shader ID
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	// Attach shader code to shader object
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	// Compile shader
-	glCompileShader(vertexShader);
-
-	// Check for shader compilation errors
-	int success;
-	char infoLog[512];
-	// Checking compilation status
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		// Get error log
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	// ************************************************
-	// Fragment shader
-	// ************************************************
-	const char* fragmentShaderSource = "#version 330 core\n"
-		"out vec4 FragColor;\n"
-		"in vec3 ourColor;\n"
-		"\n"
-		"void main()\n"
-		"{\n"
-		"\tFragColor = vec4(ourColor, 1.0);\n"
-		"}\n";
-
-	// Create shader object
-	unsigned int fragmentShader;
-	// Assign a shader ID
-	fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	// Attach shader code to shader object
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	// Compile shader
-	glCompileShader(fragmentShader);
-
-	// Check for shader compilation errors
-	// Checking compilation status
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		// Get error log
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	// ************************************************
 	// Shader program
 	// ************************************************
-	unsigned int shaderProgram;
-	// Create ID for shader program
-	shaderProgram = glCreateProgram();
-
-	// Attach shaders
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	// Link shaders
-	glLinkProgram(shaderProgram);
-
-	// Check for linking errors
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
+	Shader shader("vertexShader.shader", "fragmentShader.shader");
 
 	// Activate shader program
-	glUseProgram(shaderProgram);
-
-	// Delete shader parts that are no longer in use
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+	shader.Use();
 
 	// ************************************************
 	// Render loop
@@ -241,13 +156,7 @@ int main()
 		// Color the buffer to match clear color state
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		glUseProgram(shaderProgram);
-
-		// Update uniform
-//		float timeValue = glfwGetTime();
-//		float greenValue = sin(timeValue) / 2.0f + 0.5f;
-//		int vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-//		glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+		shader.Use();
 
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
