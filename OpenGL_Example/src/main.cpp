@@ -59,17 +59,20 @@ int main()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	// ************************************************
-	// Set rectangle vertices
+	// Set 2 triangle vertices
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
-	float vertices[] = {
+	float triangle0[] = {
 		// Triangle 1
 		// Lower left point
 		-0.5f, -0.5f, 0.0f,
 		// Lower right point
 		0.5f, -0.5f, 0.0f,
 		// Top point
-		0.0f, 0.5f, 0.0f,
+		0.0f, 0.5f, 0.0f
+	};
+
+	float triangle1[] ={
 		// Triangle 2
 		// Top left point
 		0.5f, 0.5f, 0.0f,
@@ -91,35 +94,48 @@ int main()
 	// Vertex buffer object
 	// ************************************************
 	// Create a vertex buffer object to manage our vertex memory on the GPU
-	unsigned int VBO;
+	unsigned int VBO[2];
 	// Generate a unique ID for our vertex buffer
-	glGenBuffers(1, &VBO);
+	glGenBuffers(2, VBO);
 
 	// ************************************************
 	// Element buffer object
 	// ************************************************
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
+//	unsigned int EBO;
+//	glGenBuffers(1, &EBO);
 
 	// ************************************************
 	// Vertex array object
 	// ************************************************
 	// Create a vertex array object
-	unsigned int VAO;
+	unsigned int VAO[2];
 	// Give VAO an ID
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(2, VAO);
 	// Bind VAO
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO[0]);
 
 	// ************************************************
 	// Bind data to VBO with active VAO and add vertex attributes
 	// ************************************************
 	// Bind our vertex buffer to set it as the active GL_ARRAY_BUFFER
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 	// Copy our vertices to the vertex buffer's memory on the GPU
 	// Last argument can be GL_STATIC_DRAW for rarely changing, GL_DYNAMIC_DRAW for frequent changing and
 	// GL_STREAM_DRAW for changing every frame
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle0), triangle0, GL_STATIC_DRAW);
+
+	// Set vertex attributes pointer and enable it
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+
+	// Bind under VAO[1]
+	glBindVertexArray(VAO[1]);
+	// Bind our vertex buffer to set it as the active GL_ARRAY_BUFFER
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+	// Copy our vertices to the vertex buffer's memory on the GPU
+	// Last argument can be GL_STATIC_DRAW for rarely changing, GL_DYNAMIC_DRAW for frequent changing and
+	// GL_STREAM_DRAW for changing every frame
+	glBufferData(GL_ARRAY_BUFFER, sizeof(triangle1), triangle1, GL_STATIC_DRAW);
 
 	// Set vertex attributes pointer and enable it
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -239,9 +255,13 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		// Triangle 0
+		glBindVertexArray(VAO[0]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		// Triangle 1
+		glBindVertexArray(VAO[1]);
+		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glBindVertexArray(0);
 
 		// Load image buffer to display
