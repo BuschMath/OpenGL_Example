@@ -59,7 +59,7 @@ int main()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
 	// ************************************************
-	// Set triangle vertices
+	// Set rectangle vertices
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
 	float vertices[] = {
@@ -67,8 +67,18 @@ int main()
 		-0.5f, -0.5f, 0.0f,
 		// Lower right point
 		0.5f, -0.5f, 0.0f,
-		// Top point
-		0.0f, 0.5f, 0.0f
+		// Top right point
+		0.5f, 0.5f, 0.0f,
+		// Top left point
+		-0.5f, 0.5f, 0.0f
+	};
+
+	// ************************************************
+	// Set rectangle indices
+	// ************************************************
+	unsigned int indices[] = {
+		2, 1, 3,		// First triangle
+		1, 0, 3			// Second triangle
 	};
 
 	// ************************************************
@@ -78,6 +88,12 @@ int main()
 	unsigned int VBO;
 	// Generate a unique ID for our vertex buffer
 	glGenBuffers(1, &VBO);
+
+	// ************************************************
+	// Element buffer object
+	// ************************************************
+	unsigned int EBO;
+	glGenBuffers(1, &EBO);
 
 	// ************************************************
 	// Vertex array object
@@ -102,6 +118,15 @@ int main()
 	// Set vertex attributes pointer and enable it
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
+
+	// ************************************************
+	// Bind data to EBO with active VAO
+	// ************************************************
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	// Deactivate VAO
+	glBindVertexArray(0);
 
 	// ************************************************
 	// Vertex shader
@@ -209,7 +234,8 @@ int main()
 
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
 
 		// Load image buffer to display
 		glfwSwapBuffers(window);
