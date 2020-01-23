@@ -10,6 +10,7 @@
 // Global constants ********************************
 const int windowWidth = 800;
 const int windowHeight = 600;
+float alpha = 0.2f;
 
 // Helper function prototypes ********************************
 // Deals with window resizing, updating the rendering window
@@ -72,8 +73,8 @@ int main()
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load and generate the texture
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true);
@@ -96,8 +97,8 @@ int main()
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	// load and generate the texture
 //	stbi_set_flip_vertically_on_load(true);
 	data = stbi_load("res/awesomeface.png", &width, &height, &nrChannels, 0);
@@ -118,13 +119,13 @@ int main()
 	// Set vertices of a triangle in normalized device coordinates
 	float vertices[] = {
 		// Lower left point		// Colors				// Texture coordinates
-		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.49f, 0.49f,
+		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
 		// Lower right point
-		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		0.51f, 0.49f,
+		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
 		// Top right point
-		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.51f, 0.51f,
+		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
 		// Top left point
-		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.49f, 0.51f
+		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.0f, 1.0f
 	};
 
 	// ************************************************
@@ -199,6 +200,7 @@ int main()
 	// Set uniforms
 	shader.SetInt("texture0", 0);
 	shader.SetInt("texture1", 1);
+	shader.SetFloat("alpha", alpha);
 
 	// ************************************************
 	// Render loop
@@ -215,6 +217,8 @@ int main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		shader.Use();
+
+		shader.SetFloat("alpha", alpha);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
@@ -245,4 +249,20 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+	{
+		alpha += 0.001f;
+
+		if (alpha > 1)
+			alpha = 1;
+	}
+
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+	{
+		alpha -= 0.001f;
+
+		if (alpha < 0)
+			alpha = 0;
+	}
 }
