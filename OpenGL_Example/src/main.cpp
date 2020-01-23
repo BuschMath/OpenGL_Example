@@ -223,10 +223,10 @@ int main()
 		// ************************************************
 		// Rotate over time and translate rectangle
 		// ************************************************
-		glm::mat4 trans = glm::mat4(1.0f);
-		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
-		trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+		glm::mat4 trans0 = glm::mat4(1.0f);
+		trans0 = glm::translate(trans0, glm::vec3(0.5f, -0.5f, 0.0f));
+		trans0 = glm::rotate(trans0, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans0));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture0);
@@ -234,6 +234,20 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture1);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		glm::mat4 trans1 = glm::mat4(1.0f);
+		trans1 = glm::translate(trans1, glm::vec3(-0.5f, 0.5f, 0.0f));
+		trans1 = glm::scale(trans1, glm::vec3(abs(sin((float)glfwGetTime())), abs(sin((float)glfwGetTime())), 
+			abs(sin((float)glfwGetTime()))));
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans1));
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, texture1);
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
 		glBindVertexArray(0);
 
 		// Load image buffer to display
