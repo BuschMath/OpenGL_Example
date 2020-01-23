@@ -3,6 +3,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <stb_image.h>
+#include <glm/glm/glm.hpp>
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtc/type_ptr.hpp>
 
 // Local headers ********************************
 #include "Shader.h"
@@ -189,6 +192,13 @@ int main()
 	glBindVertexArray(0);
 
 	// ************************************************
+	// Rotate and scale rectangle
+	// ************************************************
+	glm::mat4 trans = glm::mat4(1.0f);
+	trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));
+
+	// ************************************************
 	// Shader program
 	// ************************************************
 	Shader shader("vertexShader.shader", "fragmentShader.shader");
@@ -199,6 +209,8 @@ int main()
 	// Set uniforms
 	shader.SetInt("texture0", 0);
 	shader.SetInt("texture1", 1);
+	unsigned int transformLoc = glGetUniformLocation(shader.GetID(), "transform");
+	glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
 	// ************************************************
 	// Render loop
