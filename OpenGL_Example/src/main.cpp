@@ -120,11 +120,11 @@ int main()
 		// Lower left point		// Colors				// Texture coordinates
 		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
 		// Lower right point
-		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
+		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		2.0f, 0.0f,
 		// Top right point
-		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
+		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		2.0f, 2.0f,
 		// Top left point
-		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.0f, 1.0f
+		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.0f, 2.0f
 	};
 
 	// ************************************************
