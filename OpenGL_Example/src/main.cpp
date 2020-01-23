@@ -72,8 +72,8 @@ int main()
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	// load and generate the texture
 	int width, height, nrChannels;
 	stbi_set_flip_vertically_on_load(true);
@@ -96,8 +96,8 @@ int main()
 	// set the texture wrapping/filtering options (on the currently bound texture object)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	// load and generate the texture
 //	stbi_set_flip_vertically_on_load(true);
 	data = stbi_load("res/awesomeface.png", &width, &height, &nrChannels, 0);
@@ -118,13 +118,13 @@ int main()
 	// Set vertices of a triangle in normalized device coordinates
 	float vertices[] = {
 		// Lower left point		// Colors				// Texture coordinates
-		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.49f, 0.49f,
 		// Lower right point
-		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		2.0f, 0.0f,
+		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		0.51f, 0.49f,
 		// Top right point
-		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		2.0f, 2.0f,
+		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		0.51f, 0.51f,
 		// Top left point
-		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.0f, 2.0f
+		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.49f, 0.51f
 	};
 
 	// ************************************************
