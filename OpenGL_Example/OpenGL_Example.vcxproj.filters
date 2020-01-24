@@ -35,6 +35,8 @@
       <Filter>header</Filter>
     </ClInclude>
     <ClInclude Include="src\header\VertexBuffer.h" />
+    <ClInclude Include="src\header\VertexArray.h" />
+    <ClInclude Include="src\header\VertexAttribute.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.shader">

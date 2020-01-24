@@ -158,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\Shader.h" />
+    <ClInclude Include="src\header\VertexArray.h" />
+    <ClInclude Include="src\header\VertexAttribute.h" />
     <ClInclude Include="src\header\VertexBuffer.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
