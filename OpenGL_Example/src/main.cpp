@@ -8,11 +8,15 @@
 #include <glm/glm/gtc/type_ptr.hpp>
 
 // Local headers ********************************
-#include "Shader.h"
+#include "header/Shader.h"
+#include "header/VertexBuffer.h"
 
 // Global constants ********************************
 const int windowWidth = 800;
 const int windowHeight = 600;
+const int numberOfVertices = 4;
+const int numberOfDataPerVertex = 8;
+const int numberOfData = numberOfVertices * numberOfDataPerVertex;
 
 // Helper function prototypes ********************************
 // Deals with window resizing, updating the rendering window
@@ -142,9 +146,7 @@ int main()
 	// Vertex buffer object
 	// ************************************************
 	// Create a vertex buffer object to manage our vertex memory on the GPU
-	unsigned int VBO;
-	// Generate a unique ID for our vertex buffer
-	glGenBuffers(1, &VBO);
+	VertexBuffer VBO;
 
 	// ************************************************
 	// Element buffer object
@@ -165,12 +167,12 @@ int main()
 	// ************************************************
 	// Bind data to VBO with active VAO and add vertex attributes
 	// ************************************************
-	// Bind our vertex buffer to set it as the active GL_ARRAY_BUFFER
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	// Copy our vertices to the vertex buffer's memory on the GPU
-	// Last argument can be GL_STATIC_DRAW for rarely changing, GL_DYNAMIC_DRAW for frequent changing and
-	// GL_STREAM_DRAW for changing every frame
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	// Last argument can be STATIC for rarely changing, DYNAMIC for frequent changing and STREAM for 
+	//changing every frame
+	VBO.SetVertices(vertices, numberOfData, DrawType::STATIC);
+	// Reactivate vertex buffer after SetVertices
+	VBO.Bind();
 
 	// Set vertex attributes pointer and enable it
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);

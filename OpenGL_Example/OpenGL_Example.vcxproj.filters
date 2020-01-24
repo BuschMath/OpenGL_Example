@@ -5,12 +5,13 @@
     <ClCompile Include="src\vendor\glad.c">
       <Filter>vendor</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>implementation</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>vendor</Filter>
     </ClCompile>
+    <ClCompile Include="src\implementation\Shader.cpp">
+      <Filter>implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implementation\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="vendor">
@@ -27,12 +28,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Shader.h">
-      <Filter>header</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>vendor</Filter>
     </ClInclude>
+    <ClInclude Include="src\header\Shader.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.shader">
