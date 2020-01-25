@@ -20,7 +20,7 @@ void ElementBuffer::Unbind()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void ElementBuffer::SetIndices(float* indices, int numberOfIndices, DrawType type)
+void ElementBuffer::SetIndices(unsigned int* indices, int numberOfIndices, DrawType type)
 {
 	if(type == DrawType::STATIC)
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * numberOfIndices, indices, GL_STATIC_DRAW);

@@ -22,16 +22,5 @@ private:
 	unsigned int offset;	// Number of componends from the beginning of each vertex to the attribute data
 };
 
-VertexAttribute::VertexAttribute()
-{
-	ID = 999999;
-	size = 999999;
-	offset = 999999;
-}
-
-VertexAttribute::~VertexAttribute()
-{
-}
-
 #endif // !VERTEXATTRIBUTE_H
 

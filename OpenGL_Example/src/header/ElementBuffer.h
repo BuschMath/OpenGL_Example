@@ -12,7 +12,7 @@ public:
 	void Bind();
 	void Unbind();
 
-	void SetIndices(float* indices, int numberOfIndices, DrawType type);
+	void SetIndices(unsigned int* indices, int numberOfIndices, DrawType type);
 
 private:
 	unsigned int ID;

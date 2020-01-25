@@ -20,19 +20,19 @@ public:
 	unsigned int GetVertexStride() { return vertexStride; };
 
 	void AddVertexAttribute(VertexAttribute attribute);
-	void SetVertexAttributes();
-	void EnableVertexAttributes();
 
-	void SetIndices(float* indices_, unsigned int numberOfIndices);
+	void SetIndices(unsigned int* indices_, unsigned int numberOfIndices_, DrawType type_);
+
+	void SetVAO_EBO();
 
 private:
 	unsigned int ID;
 	std::vector<VertexAttribute> vertexAttributes;
 	unsigned int vertexStride;							// Number of components for each vertex
 	ElementBuffer EBO;
-	float* indices;
+	DrawType type;
+	unsigned int* indices;
 	unsigned int numberOfIndices;
 };
 
 #endif // !VERTEXARRAY_H
-

@@ -8,8 +8,11 @@
 #include <glm/glm/gtc/type_ptr.hpp>
 
 // Local headers ********************************
-#include "header/Shader.h"
-#include "header/VertexBuffer.h"
+#include "Shader.h"
+#include "VertexBuffer.h"
+#include "VertexArray.h"
+#include "ElementBuffer.h"
+#include "VertexAttribute.h"
 
 // Global constants ********************************
 const int windowWidth = 800;
@@ -149,20 +152,11 @@ int main()
 	VertexBuffer VBO;
 
 	// ************************************************
-	// Element buffer object
-	// ************************************************
-	unsigned int EBO;
-	glGenBuffers(1, &EBO);
-
-	// ************************************************
 	// Vertex array object
 	// ************************************************
 	// Create a vertex array object
-	unsigned int VAO;
-	// Give VAO an ID
-	glGenVertexArrays(1, &VAO);
-	// Bind VAO
-	glBindVertexArray(VAO);
+	VertexArray VAO;
+	VAO.Bind();
 
 	// ************************************************
 	// Bind data to VBO with active VAO and add vertex attributes
@@ -174,24 +168,29 @@ int main()
 	// Reactivate vertex buffer after SetVertices
 	VBO.Bind();
 
-	// Set vertex attributes pointer and enable it
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
+	// Set vertex attributes
+	VertexAttribute VA0, VA1, VA2;
+	VA0.SetID(0);
+	VA0.SetSize(3);
+	VA0.SetOffset(0);
+	VAO.AddVertexAttribute(VA0);
 
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
+	VA1.SetID(1);
+	VA1.SetSize(3);
+	VA1.SetOffset(3);
+	VAO.AddVertexAttribute(VA1);
 
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-	glEnableVertexAttribArray(2);
+	VA2.SetID(2);
+	VA2.SetSize(2);
+	VA2.SetOffset(6);
+	VAO.AddVertexAttribute(VA2);
 
-	// ************************************************
-	// Bind data to EBO with active VAO
-	// ************************************************
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	// Deactivate VAO
-	glBindVertexArray(0);
+	// Set indices
+	VAO.SetIndices(indices, 6, DrawType::STATIC);
+	VAO.SetVertexStride(numberOfDataPerVertex);
+	VAO.SetVAO_EBO();
+	
+	VAO.Unbind();
 
 	// ************************************************
 	// Shader program
@@ -234,9 +233,9 @@ int main()
 		glBindTexture(GL_TEXTURE_2D, texture0);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture1);
-		glBindVertexArray(VAO);
+		VAO.Bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		VAO.Unbind();
 
 		// Load image buffer to display
 		glfwSwapBuffers(window);
