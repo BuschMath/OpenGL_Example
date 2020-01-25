@@ -151,17 +151,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\implementation\ElementBuffer.cpp" />
+    <ClCompile Include="src\implementation\Texture.cpp" />
+    <ClCompile Include="src\implementation\VertexArray.cpp" />
+    <ClCompile Include="src\implementation\VertexAttribute.cpp" />
     <ClCompile Include="src\implementation\VertexBuffer.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\implementation\Shader.cpp" />
     <ClCompile Include="src\vendor\glad.c" />
     <ClCompile Include="stb_image.cpp" />
-    <ClCompile Include="VertexArray.cpp" />
-    <ClCompile Include="VertexAttribute.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\ElementBuffer.h" />
     <ClInclude Include="src\header\Shader.h" />
+    <ClInclude Include="src\header\Texture.h" />
     <ClInclude Include="src\header\VertexArray.h" />
     <ClInclude Include="src\header\VertexAttribute.h" />
     <ClInclude Include="src\header\VertexBuffer.h" />
