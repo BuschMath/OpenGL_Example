@@ -18,8 +18,8 @@
 // Global constants ********************************
 const int windowWidth = 800;
 const int windowHeight = 600;
-const int numberOfVertices = 4;
-const int numberOfDataPerVertex = 8;
+const int numberOfVertices = 36;
+const int numberOfDataPerVertex = 5;
 const int numberOfData = numberOfVertices * numberOfDataPerVertex;
 
 // Helper function prototypes ********************************
@@ -84,22 +84,73 @@ int main()
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
 	float vertices[] = {
-		// Lower left point		// Colors				// Texture coordinates
-		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,		0.0f, 0.0f,
-		// Lower right point
-		0.5f, -0.5f, 0.0f,		0.0f, 1.0f, 0.0f,		1.0f, 0.0f,
-		// Top right point
-		0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 1.0f,		1.0f, 1.0f,
-		// Top left point
-		-0.5f, 0.5f, 0.0f,		0.0f, 0.0f, 0.0f,		0.0f, 1.0f
+		// Vertices				// Texture
+		// Back face
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,	1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,
+		// Front face
+		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,	0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		// Left face
+		-0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		// Right face
+		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		 // Bottom face
+		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,	1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,
+		// Top face
+		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,	0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f
 	};
 
 	// ************************************************
 	// Set rectangle indices
 	// ************************************************
 	unsigned int indices[] = {
-		2, 1, 3,		// First triangle
-		1, 0, 3			// Second triangle
+		// Back face
+		0, 1, 2,			// First triangle
+		3, 4, 5,			// Second triangle
+		// Front face
+		6, 7, 8,			// First triangle
+		9, 10, 11,			// Second triangle
+		// Left face
+		12, 13, 14,			// First triangle
+		15, 16, 17,			// Second triangle
+		// Right face
+		18, 19, 20,			// First triangle
+		21, 22, 23,			// Second triangle
+		// Bottom face
+		24, 25, 26,			// First triangle
+		27, 28, 29,			// Second triangle
+		// Top face
+		30, 31, 32,			// First triangle
+		33, 34, 35			// Second triangle
 	};
 
 	// ************************************************
@@ -126,24 +177,19 @@ int main()
 	VBO.Bind();
 
 	// Set vertex attributes
-	VertexAttribute VA0, VA1, VA2;
+	VertexAttribute VA0, VA1;
 	VA0.SetID(0);
 	VA0.SetSize(3);
 	VA0.SetOffset(0);
 	VAO.AddVertexAttribute(VA0);
 
 	VA1.SetID(1);
-	VA1.SetSize(3);
+	VA1.SetSize(2);
 	VA1.SetOffset(3);
 	VAO.AddVertexAttribute(VA1);
 
-	VA2.SetID(2);
-	VA2.SetSize(2);
-	VA2.SetOffset(6);
-	VAO.AddVertexAttribute(VA2);
-
 	// Set indices
-	VAO.SetIndices(indices, 6, DrawType::STATIC);
+	VAO.SetIndices(indices, 36, DrawType::STATIC);
 	VAO.SetVertexStride(numberOfDataPerVertex);
 	VAO.SetVAO_EBO();
 	
@@ -164,14 +210,13 @@ int main()
 	// ************************************************
 	// Create Model View Projection matrix
 	// ************************************************
-	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
 	glm::mat4 view = glm::mat4(1.0f);
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 	glm::mat4 projection;
 	projection = glm::perspective(glm::radians(45.0f), float(windowWidth) / windowHeight, 0.1f, 100.0f);
+
+	glEnable(GL_DEPTH_TEST);
 
 	// ************************************************
 	// Render loop
@@ -185,13 +230,15 @@ int main()
 		// Set clear color state defined as Red, Blue, Green, Alpha
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 		// Color the buffer to match clear color state
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.Use();
 
 		// ************************************************
 		// Send MVP matrix uniforms
 		// ************************************************
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 		int modelLoc = glGetUniformLocation(shader.GetID(), "model");
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
@@ -206,7 +253,7 @@ int main()
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, texture1.GetID());
 		VAO.Bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 		VAO.Unbind();
 
 		// Load image buffer to display
