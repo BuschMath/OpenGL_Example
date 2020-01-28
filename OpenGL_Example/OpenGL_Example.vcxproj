@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\implementation\Camera.cpp" />
     <ClCompile Include="src\implementation\ElementBuffer.cpp" />
     <ClCompile Include="src\implementation\Texture.cpp" />
     <ClCompile Include="src\implementation\VertexArray.cpp" />
@@ -163,13 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\header\ElementBuffer.h" />
+    <ClInclude Include="src\header\Camera.h" />
     <ClInclude Include="src\header\Shader.h" />
     <ClInclude Include="src\header\Texture.h" />
     <ClInclude Include="src\header\VertexArray.h" />
     <ClInclude Include="src\header\VertexAttribute.h" />
     <ClInclude Include="src\header\VertexBuffer.h" />
     <ClInclude Include="src\header\Window.h" />
-    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexShader.shader" />
