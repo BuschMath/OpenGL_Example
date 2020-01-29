@@ -31,10 +31,11 @@ public:
 	void SetFOV(float newFOV) { camera->SetFOV(newFOV); };
 	float GetFOV() { return camera->GetFOV(); };
 
+	void HandleMouse();
+	void HandleScroll();
 private:
 	Window* window;
 	Camera* camera;
-
 
 };
 

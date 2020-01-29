@@ -5,14 +5,6 @@
 // Deals with window resizing, updating the rendering window
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-
-// Global variables
-float lastX = 400, lastY = 300;
-float yaw = -90.0f, pitch;
-bool firstMouse = true;
-
 Window::Window()
 {
 	window = nullptr;
@@ -65,12 +57,6 @@ Window::Window(int windowWidth_, int windowHeight_, std::string windowTitle)
 
 	// Register window resize helper function with glfw
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-	// Set mouse callback
-	glfwSetCursorPosCallback(window, mouse_callback);
-
-	// Set scroll callback
-	glfwSetScrollCallback(window, scroll_callback);
 }
 
 Window::~Window()
@@ -146,47 +132,4 @@ void Window::SetInputMode(InputModeType mode, InputValueType value)
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
-}
-
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	if (firstMouse)
-	{
-		lastX = (float)xpos;
-		lastY = (float)ypos;
-		firstMouse = false;
-	}
-
-	float xoffset = (float)xpos - lastX;
-	float yoffset = lastY - (float)ypos;	// Reveresed on purpose
-	lastX = (float)xpos;
-	lastY = (float)ypos;
-
-	const float sensitivity = 0.05f;
-	xoffset *= sensitivity;
-	yoffset *= sensitivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = 89.0f;
-
-	glm::vec3 direction;
-	direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	direction.y = sin(glm::radians(pitch));
-	direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= (float)yoffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
 }
