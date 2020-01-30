@@ -32,7 +32,7 @@ public:
 	float GetFOV() { return camera->GetFOV(); };
 
 	void HandleMouse();
-	void HandleScroll();
+	void HandleScroll(GLFWwindow* window, double xoffset, double yoffset);
 private:
 	Window* window;
 	Camera* camera;

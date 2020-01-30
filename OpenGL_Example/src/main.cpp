@@ -13,6 +13,7 @@
 #include "VertexArray.h"
 #include "ElementBuffer.h"
 #include "VertexAttribute.h"
+#include "App.h"
 #include "Texture.h"
 #include "Window.h"
 
@@ -28,18 +29,18 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 // Helper function prototypes ********************************
-void processInput(GLFWwindow* window);
+void processInput(App* app);
 
 int main()
 {
 	// ************************************************
 	// Initialize GLFW
 	// ************************************************
-	Window win(windowWidth, windowHeight, "Title");
+	App app((int)windowWidth, (int)windowHeight, "Title", glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f), 
+		glm::vec3(0.0f, 1.0f, 0.0f), 45.0f);
 
 	// Set mouse input and callback
-	win.SetInputMode(InputModeType::CURSOR, InputValueType::DISABLED);
-
+	app.SetInputMode(InputModeType::CURSOR, InputValueType::DISABLED);
 
 	// ************************************************
 	// Load and generate texture
@@ -159,10 +160,10 @@ int main()
 	// Create Model View Projection matrix
 	// ************************************************
 	glm::mat4 view = glm::mat4(1.0f);
-	view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+	view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
 
 	glm::mat4 projection;
-	projection = glm::perspective(glm::radians(fov), float(windowWidth) / windowHeight, 0.1f, 100.0f);
+	projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -182,10 +183,11 @@ int main()
 	// ************************************************
 	// Render loop
 	// ************************************************
-	while (!glfwWindowShouldClose(win.GetWindow()))
+	while (!glfwWindowShouldClose(app.GetWindow()))
 	{
 		// Input
-		processInput(win.GetWindow());
+		processInput(&app);
+		app.HandleMouse();
 
 		// Rendering
 		float currentFrame = (float)glfwGetTime();
@@ -211,11 +213,11 @@ int main()
 			int modelLoc = glGetUniformLocation(shader.GetID(), "model");
 			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-			view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+			view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
 			int viewLoc = glGetUniformLocation(shader.GetID(), "view");
 			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 
-			projection = glm::perspective(glm::radians(fov), float(windowWidth) / windowHeight, 0.1f, 100.0f);
+			projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
 			int projectionLoc = glGetUniformLocation(shader.GetID(), "projection");
 			glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -229,7 +231,7 @@ int main()
 		}
 
 		// Load image buffer to display
-		glfwSwapBuffers(win.GetWindow());
+		glfwSwapBuffers(app.GetWindow());
 		// Check to see if any events have occured and deal with them
 		glfwPollEvents();
 	}
@@ -240,18 +242,18 @@ int main()
 	return 0;
 }
 
-void processInput(GLFWwindow* window)
+void processInput(App* app)
 {
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, true);
+	if (glfwGetKey(app->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(app->GetWindow(), true);
 
 	const float cameraSpeed = 2.5f * deltaTime;
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		cameraPos += cameraSpeed * cameraFront;
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		cameraPos -= cameraSpeed * cameraFront;
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+	if (glfwGetKey(app->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		app->SetCamPos(app->GetCamPos() + cameraSpeed * app->GetCamFront());
+	if (glfwGetKey(app->GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		app->SetCamPos(app->GetCamPos() - cameraSpeed * app->GetCamFront());
+	if (glfwGetKey(app->GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
+		app->SetCamPos(app->GetCamPos() - glm::normalize(glm::cross(app->GetCamFront(), app->GetCamUp())) * cameraSpeed);
+	if (glfwGetKey(app->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
+		app->SetCamPos(app->GetCamPos() + glm::normalize(glm::cross(app->GetCamFront(), app->GetCamUp())) * cameraSpeed);
 }

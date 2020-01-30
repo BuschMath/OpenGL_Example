@@ -1,8 +1,7 @@
 #include "App.h"
 
 #include <glfw/glfw3.h>
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+#include <iostream>
 
 // Global variables
 float lastX = 400, lastY = 300;
@@ -19,6 +18,14 @@ App::App(int windowWidth_, int windowHeight_, std::string windowTitle, glm::vec3
 	glm::vec3 iniCamFront, glm::vec3 iniCamUp, float iniFOV)
 {
 	window = new Window(windowWidth_, windowHeight_, windowTitle);
+
+	glfwSetWindowUserPointer(window->GetWindow(), this);
+
+	glfwSetScrollCallback(window->GetWindow(), [](GLFWwindow* window, double x, double y)
+		{
+			if (App* app = static_cast<App*>(glfwGetWindowUserPointer(window)))
+				app->HandleScroll(window, x, y);
+		});
 
 	camera = new Camera(iniCamPos, iniCamFront, iniCamUp, iniFOV);
 }
@@ -63,23 +70,12 @@ void App::HandleMouse()
 	camera->SetCamFront(glm::normalize(direction));
 }
 
-void App::HandleScroll()
+void App::HandleScroll(GLFWwindow* window, double xoffset, double yoffset)
 {
-	glfwGet
 	if (camera->GetFOV() >= 1.0f && camera->GetFOV() <= 45.0f)
 		camera->SetFOV(camera->GetFOV() - (float)yoffset);
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= (float)yoffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
+	if (camera->GetFOV()<= 1.0f)
+		camera->SetFOV(1.0f);
+	if (camera->GetFOV()>= 45.0f)
+		camera->SetFOV(45.0f);
 }
