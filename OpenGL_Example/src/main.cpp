@@ -25,11 +25,8 @@ const int numberOfDataPerVertex = 5;
 const int numberOfData = numberOfVertices * numberOfDataPerVertex;
 
 // Global variables ********************************
-float deltaTime = 0.0f;
-float lastFrame = 0.0f;
 
 // Helper function prototypes ********************************
-void processInput(App* app);
 
 int main()
 {
@@ -186,13 +183,11 @@ int main()
 	while (!glfwWindowShouldClose(app.GetWindow()))
 	{
 		// Input
-		processInput(&app);
+		app.ProcessInput();
 		app.HandleMouse();
 
 		// Rendering
-		float currentFrame = (float)glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
-		lastFrame = currentFrame;
+		app.UpdateFrameTime();
 
 		// Set clear color state defined as Red, Blue, Green, Alpha
 		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
@@ -230,30 +225,8 @@ int main()
 			VAO.Unbind();
 		}
 
-		// Load image buffer to display
-		glfwSwapBuffers(app.GetWindow());
-		// Check to see if any events have occured and deal with them
-		glfwPollEvents();
+		app.BufferSwapAndPoll();
 	}
 
-	// Clean-up GLFW
-	glfwTerminate();
-
 	return 0;
-}
-
-void processInput(App* app)
-{
-	if (glfwGetKey(app->GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(app->GetWindow(), true);
-
-	const float cameraSpeed = 2.5f * deltaTime;
-	if (glfwGetKey(app->GetWindow(), GLFW_KEY_W) == GLFW_PRESS)
-		app->SetCamPos(app->GetCamPos() + cameraSpeed * app->GetCamFront());
-	if (glfwGetKey(app->GetWindow(), GLFW_KEY_S) == GLFW_PRESS)
-		app->SetCamPos(app->GetCamPos() - cameraSpeed * app->GetCamFront());
-	if (glfwGetKey(app->GetWindow(), GLFW_KEY_A) == GLFW_PRESS)
-		app->SetCamPos(app->GetCamPos() - glm::normalize(glm::cross(app->GetCamFront(), app->GetCamUp())) * cameraSpeed);
-	if (glfwGetKey(app->GetWindow(), GLFW_KEY_D) == GLFW_PRESS)
-		app->SetCamPos(app->GetCamPos() + glm::normalize(glm::cross(app->GetCamFront(), app->GetCamUp())) * cameraSpeed);
 }

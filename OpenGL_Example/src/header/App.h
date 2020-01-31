@@ -33,10 +33,18 @@ public:
 
 	void HandleMouse();
 	void HandleScroll(GLFWwindow* window, double xoffset, double yoffset);
+	void ProcessInput();
+
+	void UpdateFrameTime();
+
+	void BufferSwapAndPoll();
+
 private:
 	Window* window;
 	Camera* camera;
 
+	float deltaTime;
+	float lastFrame;
 };
 
 #endif // !APP_H
