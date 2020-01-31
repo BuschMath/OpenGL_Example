@@ -113,16 +113,13 @@ int main()
 			model = glm::translate(model, cubePositions[i]);
 			if(i % 3 == 0)
 				model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-			int modelLoc = glGetUniformLocation(shader.GetID(), "model");
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+			shader.SetMat4("model", model);
 
 			view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
-			int viewLoc = glGetUniformLocation(shader.GetID(), "view");
-			glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+			shader.SetMat4("view", view);
 
 			projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
-			int projectionLoc = glGetUniformLocation(shader.GetID(), "projection");
-			glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, glm::value_ptr(projection));
+			shader.SetMat4("projection", projection);
 
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, texture0.GetID());

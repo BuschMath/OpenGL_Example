@@ -91,6 +91,6 @@ void Cube::Unbind()
 void Cube::Draw()
 {
 	VAO.Bind();
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, noIndices, GL_UNSIGNED_INT, 0);
 	VAO.Unbind();
 }
