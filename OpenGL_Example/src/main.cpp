@@ -16,13 +16,11 @@
 #include "App.h"
 #include "Texture.h"
 #include "Window.h"
+#include "Cube.h"
 
 // Global constants ********************************
 const int windowWidth = 800;
 const int windowHeight = 600;
-const int numberOfVertices = 16;
-const int numberOfDataPerVertex = 5;
-const int numberOfData = numberOfVertices * numberOfDataPerVertex;
 
 // Global variables ********************************
 
@@ -49,98 +47,8 @@ int main()
 	// Set rectangle vertices
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
-	float vertices[] = {
-		// Vertices				// Texture		// Ver
-		// Back face
-		-0.5f, -0.5f, -0.5f,	0.0f, 0.0f,		// 0
-		 0.5f, -0.5f, -0.5f,	1.0f, 0.0f,		// 1
-		 0.5f,  0.5f, -0.5f,	1.0f, 1.0f,		// 2
-		-0.5f,  0.5f, -0.5f,	0.0f, 1.0f,		// 3
-		// Front face
-		-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,		// 4
-		 0.5f, -0.5f,  0.5f,	1.0f, 0.0f,		// 5
-		 0.5f,  0.5f,  0.5f,	1.0f, 1.0f,		// 6
-		-0.5f,  0.5f,  0.5f,	0.0f, 1.0f,		// 7
-		// Left face
-		-0.5f,  0.5f,  0.5f,	1.0f, 0.0f,		// 8
-		-0.5f,  0.5f, -0.5f,	1.0f, 1.0f,		// 9
-		-0.5f, -0.5f, -0.5f,	0.0f, 1.0f,		// 10
-		// Right face
-		 0.5f,  0.5f,  0.5f,	1.0f, 0.0f,		// 11
-		 0.5f, -0.5f, -0.5f,	0.0f, 1.0f,		// 12
-		 0.5f, -0.5f,  0.5f,	0.0f, 0.0f,		// 13
-		 // Bottom face
-		 0.5f, -0.5f, -0.5f,	1.0f, 1.0f,		// 14
-		// Top face
-		-0.5f,  0.5f,  0.5f,	0.0f, 0.0f 		// 15
-	};
-
-	// ************************************************
-	// Set rectangle indices
-	// ************************************************
-	unsigned int indices[] = {
-		// Back face
-		0, 1, 2,			// First triangle
-		2, 3, 0,			// Second triangle
-		// Front face
-		4, 5, 6,			// First triangle
-		6, 7, 4,			// Second triangle
-		// Left face
-		8, 9, 10,			// First triangle
-		10, 4, 8,			// Second triangle
-		// Right face
-		11, 2, 12,			// First triangle
-		12, 13, 11,			// Second triangle
-		// Bottom face
-		10, 14, 5,			// First triangle
-		5, 4, 10,			// Second triangle
-		// Top face
-		3, 2, 11,			// First triangle
-		11, 15, 3			// Second triangle
-	};
-
-	// ************************************************
-	// Vertex buffer object
-	// ************************************************
-	// Create a vertex buffer object to manage our vertex memory on the GPU
-	VertexBuffer VBO;
-
-	// ************************************************
-	// Vertex array object
-	// ************************************************
-	// Create a vertex array object
-	VertexArray VAO;
-	VAO.Bind();
-
-	// ************************************************
-	// Bind data to VBO with active VAO and add vertex attributes
-	// ************************************************
-	// Copy our vertices to the vertex buffer's memory on the GPU
-	// Last argument can be STATIC for rarely changing, DYNAMIC for frequent changing and STREAM for 
-	//changing every frame
-	VBO.SetVertices(vertices, numberOfData, DrawType::STATIC);
-	// Reactivate vertex buffer after SetVertices
-	VBO.Bind();
-
-	// Set vertex attributes
-	VertexAttribute VA0, VA1;
-	VA0.SetID(0);
-	VA0.SetSize(3);
-	VA0.SetOffset(0);
-	VAO.AddVertexAttribute(VA0);
-
-	VA1.SetID(1);
-	VA1.SetSize(2);
-	VA1.SetOffset(3);
-	VAO.AddVertexAttribute(VA1);
-
-	// Set indices
-	VAO.SetIndices(indices, 36, DrawType::STATIC);
-	VAO.SetVertexStride(numberOfDataPerVertex);
-	VAO.SetVAO_EBO();
+	Cube c;
 	
-	VAO.Unbind();
-
 	// ************************************************
 	// Shader program
 	// ************************************************
@@ -220,9 +128,8 @@ int main()
 			glBindTexture(GL_TEXTURE_2D, texture0.GetID());
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, texture1.GetID());
-			VAO.Bind();
-			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-			VAO.Unbind();
+			
+			c.Draw();
 		}
 
 		app.BufferSwapAndPoll();
