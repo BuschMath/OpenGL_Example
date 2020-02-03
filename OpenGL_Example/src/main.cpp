@@ -97,10 +97,7 @@ int main()
 		// Rendering
 		app.UpdateFrameTime();
 
-		// Set clear color state defined as Red, Blue, Green, Alpha
-		glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
-		// Color the buffer to match clear color state
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		shader.SetClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
 		shader.Use();
 
@@ -121,10 +118,10 @@ int main()
 			projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
 			shader.SetMat4("projection", projection);
 
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture0.GetID());
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, texture1.GetID());
+			texture0.Activate(0);
+			texture0.Bind();
+			texture1.Activate(1);
+			texture1.Bind();
 			
 			c.Draw();
 		}

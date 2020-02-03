@@ -100,6 +100,15 @@ void Shader::Use()
 	glUseProgram(ID);
 }
 
+void Shader::SetClearColor(float r, float g, float b, float a)
+{
+	// Set clear color state defined as Red, Green, Blue, Alpha
+	glClearColor(r, g, b, a);
+	// Color the buffer to match clear color state
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+}
+
 void Shader::SetBool(const std::string& name, bool value) const
 {
 	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);

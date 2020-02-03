@@ -29,6 +29,8 @@ public:
 	void Bind();
 	void Unbind();
 
+	void Activate(unsigned int i);
+
 	unsigned int GetID() { return ID; };
 
 	// Expects vector of four elements RGBA, only needed if CLAMP_BOARDER is set

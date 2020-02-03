@@ -36,6 +36,8 @@ public:
 	// Postcondition: The shader program has been bounded
 	void Use();
 
+	void SetClearColor(float r, float g, float b, float a);
+
 	// Utiliity uniform functions
 	void SetBool(const std::string& name, bool value) const;
 	void SetInt(const std::string& name, int value) const;
