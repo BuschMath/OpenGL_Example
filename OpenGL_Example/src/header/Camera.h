@@ -25,13 +25,11 @@ public:
 	void SetFOV(float newFOV) { fov = newFOV; };
 	float GetFOV() { return fov; };
 
+private:
 	glm::vec3 cameraPos;
 	glm::vec3 cameraFront;
 	glm::vec3 cameraUp;
 	float fov;
-
-private:
-
 };
 
 #endif // !CAMERA_H
