@@ -8,10 +8,6 @@
 
 #include <glad/glad.h>
 
-const unsigned int noVertices = 80;
-const unsigned int noIndices = 36;
-const unsigned int numberOfDataPerVertex = 5;
-
 class Cube
 {
 public:
@@ -31,6 +27,10 @@ private:
 	float* vertices;
 	unsigned int* indices;
 	DrawType type;
+
+	const unsigned int noVertices = 80;
+	const unsigned int noIndices = 36;
+	const unsigned int numberOfDataPerVertex = 5;
 };
 
 #endif // !CUBE_H
