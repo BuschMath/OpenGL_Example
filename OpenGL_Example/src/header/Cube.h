@@ -8,10 +8,15 @@
 
 #include <glad/glad.h>
 
+enum class CubeType{
+	BASIC, TEXTURE
+};
+
 class Cube
 {
 public:
 	Cube();
+	Cube(CubeType type);
 	~Cube();
 
 	void Bind();
@@ -26,11 +31,15 @@ private:
 	VertexAttribute textureLocation;
 	float* vertices;
 	unsigned int* indices;
-	DrawType type;
+	DrawType drawType;
+	CubeType cubeType;
 
-	const unsigned int noVertices = 80;
+	unsigned int noVertices = 80;
 	const unsigned int noIndices = 36;
-	const unsigned int numberOfDataPerVertex = 5;
+	unsigned int numberOfDataPerVertex = 5;
+
+	void TexCubeSetup();
+	void BasicCubeSetup();
 };
 
 #endif // !CUBE_H

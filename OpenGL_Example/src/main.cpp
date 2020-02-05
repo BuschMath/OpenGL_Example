@@ -47,7 +47,7 @@ int main()
 	// Set rectangle vertices
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
-	Cube c;
+	Cube c(CubeType::BASIC);
 	
 	// ************************************************
 	// Shader program
