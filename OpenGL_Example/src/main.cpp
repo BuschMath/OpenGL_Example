@@ -31,31 +31,31 @@ int main()
 	// ************************************************
 	// Initialize GLFW
 	// ************************************************
-	App app((int)windowWidth, (int)windowHeight, "Title", glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f), 
+	App app((int)windowWidth, (int)windowHeight, "Title", glm::vec3(0.0f, 0.0f, 10.0f), glm::vec3(0.0f, 0.0f, -1.0f), 
 		glm::vec3(0.0f, 1.0f, 0.0f), 45.0f);
 
 	// Set mouse input and callback
 	app.SetInputMode(InputModeType::CURSOR, InputValueType::DISABLED);
 
-	// ************************************************
-	// Load and generate texture
-	// ************************************************
-	Texture texture0("res/container.jpg", ImageType::JPG, WrapType::REPEAT, FilterType::LINEAR);
-	Texture texture1("res/awesomeface.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
 
 	// ************************************************
 	// Set rectangle vertices
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
-	Cube c(CubeType::BASIC);
+	Cube c(CubeType::NORM_BASIC);
+	Cube light(CubeType::BASIC);
 	
 	// ************************************************
 	// Shader program
 	// ************************************************
-	Shader shader("vertexShader.shader", "fragmentShader.shader");
+	Shader shader("vsMVP_woTex_DiffuseLight.shader", "fsLight.shader");
+	Shader lightingShader("vsMVP_woTexture.shader", "fsLightSource.shader");
+	lightingShader.Use();
 
 	// Activate shader program
 	shader.Use();
+	shader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
+	shader.SetVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
 	// Set uniforms
 	shader.SetInt("texture0", 0);
@@ -72,18 +72,11 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f,  0.0f,  0.0f),
-		glm::vec3(2.0f,  5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f,  3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f,  2.0f, -2.5f),
-		glm::vec3(1.5f,  0.2f, -1.5f),
-		glm::vec3(-1.3f,  1.0f, -1.5f)
-	};
+	glm::vec3 lightPos(1.2f, 1.0f, 5.0f);
+	glm::vec3 modelPos(0.0f, 0.0f, 0.0f);
+
+	shader.SetVec3("lightPos", lightPos);
+	shader.SetVec3("viewPos", app.GetCamPos());
 
 	// ************************************************
 	// Render loop
@@ -101,30 +94,36 @@ int main()
 
 		shader.Use();
 
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, modelPos);
+		shader.SetMat4("model", model);
+
+		view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
+		shader.SetMat4("view", view);
+
+		projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
+		shader.SetMat4("projection", projection);
+
+		c.Draw();
+
+
 		// ************************************************
-		// Send MVP matrix uniforms
+		// light
 		// ************************************************
-		for (unsigned int i = 0; i < 10; i++)
-		{
-			glm::mat4 model = glm::mat4(1.0f);
-			model = glm::translate(model, cubePositions[i]);
-			if(i % 3 == 0)
-				model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-			shader.SetMat4("model", model);
+		lightingShader.Use();
 
-			view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
-			shader.SetMat4("view", view);
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, lightPos);
+		model = glm::scale(model, glm::vec3(0.2f));
+		lightingShader.SetMat4("model", model);
 
-			projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
-			shader.SetMat4("projection", projection);
+		view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
+		lightingShader.SetMat4("view", view);
 
-			texture0.Activate(0);
-			texture0.Bind();
-			texture1.Activate(1);
-			texture1.Bind();
-			
-			c.Draw();
-		}
+		projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
+		lightingShader.SetMat4("projection", projection);
+		
+		light.Draw();
 
 		app.BufferSwapAndPoll();
 	}

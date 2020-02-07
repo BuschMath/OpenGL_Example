@@ -77,6 +77,10 @@
     <None Include="fragmentShader.shader">
       <Filter>shaders</Filter>
     </None>
+    <None Include="vsMVP_woTexture.shader" />
+    <None Include="fsLight.shader" />
+    <None Include="fsLightSource.shader" />
+    <None Include="vsMVP_woTex_DiffuseLight.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexShader.shader">

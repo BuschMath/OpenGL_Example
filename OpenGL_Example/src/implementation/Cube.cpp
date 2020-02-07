@@ -15,6 +15,8 @@ Cube::Cube(CubeType type)
 		BasicCubeSetup();
 	else if (cubeType == CubeType::TEXTURE)
 		TexCubeSetup();
+	else if (cubeType == CubeType::NORM_BASIC)
+		NormBasicCubeSetup();
 	else
 		std::cout << "ERROR::CUBE::CONSTRUCTOR::CUBETYPEFAILURE\n";
 }
@@ -35,11 +37,21 @@ void Cube::Unbind()
 	VAO.Unbind();
 }
 
+void Cube::VBO_Bind()
+{
+	VBO.Bind();
+}
+
+void Cube::VBO_Unbind()
+{
+	VBO.Unbind();
+}
+
 void Cube::Draw()
 {
-	VAO.Bind();
+	Bind();
 	glDrawElements(GL_TRIANGLES, noIndices, GL_UNSIGNED_INT, 0);
-	VAO.Unbind();
+	Unbind();
 }
 
 void Cube::TexCubeSetup()
@@ -181,6 +193,89 @@ void Cube::BasicCubeSetup()
 	cubeLocation.SetSize(3);
 	cubeLocation.SetOffset(0);
 	VAO.AddVertexAttribute(cubeLocation);
+
+	VAO.SetIndices(indices, noIndices, drawType);
+	VAO.SetVertexStride(numberOfDataPerVertex);
+	VAO.SetVAO_EBO();
+
+	VAO.Unbind();
+}
+
+void Cube::NormBasicCubeSetup()
+{
+	cubeType = CubeType::NORM_BASIC;
+	noVertices = 144;
+	numberOfDataPerVertex = 6;
+
+	vertices = new float[noVertices] {
+		// Vertices				// Norm vec
+		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f,  1.0f,
+
+		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f
+	};
+
+	indices = new unsigned int[noIndices] {
+		// Back face
+		0, 1, 2,			// First triangle
+		2, 3, 0,			// Second triangle
+		// Front face
+		4, 5, 6,			// First triangle
+		6, 7, 4,			// Second triangle
+		// Left face
+		8, 9, 10,			// First triangle
+		10, 11, 8,			// Second triangle
+		// Right face
+		12, 13, 14,			// First triangle
+		14, 15, 12,			// Second triangle
+		// Bottom face
+		16, 17, 18,			// First triangle
+		18, 19, 16,			// Second triangle
+		// Top face
+		20, 21, 22,			// First triangle
+		22, 23, 20			// Second triangle
+	};
+
+	VAO.Bind();
+
+	drawType = DrawType::STATIC;
+	VBO.SetVertices(vertices, noVertices, drawType);
+	VBO.Bind();
+
+	cubeLocation.SetID(0);
+	cubeLocation.SetSize(3);
+	cubeLocation.SetOffset(0);
+	VAO.AddVertexAttribute(cubeLocation);
+
+	normalLocation.SetID(1);
+	normalLocation.SetSize(3);
+	normalLocation.SetOffset(3);
+	VAO.AddVertexAttribute(normalLocation);
 
 	VAO.SetIndices(indices, noIndices, drawType);
 	VAO.SetVertexStride(numberOfDataPerVertex);

@@ -181,6 +181,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.shader" />
+    <None Include="fsLight.shader" />
+    <None Include="fsLightSource.shader" />
+    <None Include="vsMVP_woTexture.shader" />
+    <None Include="vsMVP_woTex_DiffuseLight.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

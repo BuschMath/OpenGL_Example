@@ -9,7 +9,7 @@
 #include <glad/glad.h>
 
 enum class CubeType{
-	BASIC, TEXTURE
+	BASIC, TEXTURE, NORM_BASIC
 };
 
 class Cube
@@ -22,6 +22,9 @@ public:
 	void Bind();
 	void Unbind();
 
+	void VBO_Bind();
+	void VBO_Unbind();
+
 	void Draw();
 
 private:
@@ -29,6 +32,7 @@ private:
 	VertexBuffer VBO;
 	VertexAttribute cubeLocation;
 	VertexAttribute textureLocation;
+	VertexAttribute normalLocation;
 	float* vertices;
 	unsigned int* indices;
 	DrawType drawType;
@@ -40,6 +44,7 @@ private:
 
 	void TexCubeSetup();
 	void BasicCubeSetup();
+	void NormBasicCubeSetup();
 };
 
 #endif // !CUBE_H
