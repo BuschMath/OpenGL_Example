@@ -54,8 +54,6 @@ int main()
 
 	// Activate shader program
 	shader.Use();
-	shader.SetVec3("objectColor", glm::vec3(1.0f, 0.5f, 0.31f));
-	shader.SetVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
 	// Set uniforms
 	shader.SetInt("texture0", 0);
@@ -75,8 +73,17 @@ int main()
 	glm::vec3 lightPos(1.2f, 1.0f, 5.0f);
 	glm::vec3 modelPos(0.0f, 0.0f, 0.0f);
 
-	shader.SetVec3("lightPos", lightPos);
+	shader.SetVec3("light.position", lightPos);
 	shader.SetVec3("viewPos", app.GetCamPos());
+
+	shader.SetVec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
+	shader.SetVec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
+	shader.SetVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
+	shader.SetFloat("material.shininess", 32.0f);
+
+	shader.SetVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
+	shader.SetVec3("light.diffuse", glm::vec3(0.5f, 0.5f, 0.5f));
+	shader.SetVec3("light.specular", glm::vec3(1.0f, 1.0f, 1.0f));
 
 	// ************************************************
 	// Render loop

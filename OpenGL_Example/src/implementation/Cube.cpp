@@ -10,6 +10,9 @@ Cube::Cube()
 Cube::Cube(CubeType type)
 {
 	cubeType = type;
+	drawType = DrawType::STATIC;
+	vertices = nullptr;
+	indices = nullptr;
 
 	if (cubeType == CubeType::BASIC)
 		BasicCubeSetup();
