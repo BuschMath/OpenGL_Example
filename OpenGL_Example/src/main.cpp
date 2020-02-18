@@ -44,11 +44,13 @@ int main()
 	// Set vertices of a triangle in normalized device coordinates
 	Cube c(CubeType::NORM_BASIC);
 	Cube light(CubeType::BASIC);
+
+	Texture texBox("res/container2.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
 	
 	// ************************************************
 	// Shader program
 	// ************************************************
-	Shader shader("vsMVP_woTex_DiffuseLight.shader", "fsLight.shader");
+	Shader shader("vsMVP_Lighting.shader", "fsLight.shader");
 	Shader lightingShader("vsMVP_woTexture.shader", "fsLightSource.shader");
 	lightingShader.Use();
 
@@ -56,8 +58,7 @@ int main()
 	shader.Use();
 
 	// Set uniforms
-	shader.SetInt("texture0", 0);
-	shader.SetInt("texture1", 1);
+	shader.SetInt("material.diffuse", 0);
 
 	// ************************************************
 	// Create Model View Projection matrix
@@ -76,8 +77,6 @@ int main()
 	shader.SetVec3("light.position", lightPos);
 	shader.SetVec3("viewPos", app.GetCamPos());
 
-	shader.SetVec3("material.ambient", glm::vec3(1.0f, 0.5f, 0.31f));
-	shader.SetVec3("material.diffuse", glm::vec3(1.0f, 0.5f, 0.31f));
 	shader.SetVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader.SetFloat("material.shininess", 32.0f);
 
@@ -110,6 +109,9 @@ int main()
 
 		projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
 		shader.SetMat4("projection", projection);
+
+		texBox.Activate(0);
+		texBox.Bind();
 
 		c.Draw();
 

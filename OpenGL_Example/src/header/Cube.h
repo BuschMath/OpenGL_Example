@@ -9,7 +9,7 @@
 #include <glad/glad.h>
 
 enum class CubeType{
-	BASIC, TEXTURE, NORM_BASIC
+	BASIC, TEXTURE, NORM_BASIC, NORM_TEXTURE
 };
 
 class Cube
@@ -43,6 +43,7 @@ private:
 	unsigned int numberOfDataPerVertex = 5;
 
 	void TexCubeSetup();
+	void NormTexCubeSetup();
 	void BasicCubeSetup();
 	void NormBasicCubeSetup();
 };

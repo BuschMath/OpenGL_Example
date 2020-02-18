@@ -81,6 +81,7 @@
     <None Include="fsLight.shader" />
     <None Include="fsLightSource.shader" />
     <None Include="vsMVP_woTex_DiffuseLight.shader" />
+    <None Include="vsMVP_Lighting.shader" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexShader.shader">

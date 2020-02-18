@@ -183,6 +183,7 @@
     <None Include="fragmentShader.shader" />
     <None Include="fsLight.shader" />
     <None Include="fsLightSource.shader" />
+    <None Include="vsMVP_Lighting.shader" />
     <None Include="vsMVP_woTexture.shader" />
     <None Include="vsMVP_woTex_DiffuseLight.shader" />
   </ItemGroup>
