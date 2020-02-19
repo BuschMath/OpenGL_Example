@@ -42,7 +42,7 @@ int main()
 	// Set rectangle vertices
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
-	Cube c(CubeType::NORM_BASIC);
+	Cube c(CubeType::NORM_TEXTURE);
 	Cube light(CubeType::BASIC);
 
 	Texture texBox("res/container2.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
