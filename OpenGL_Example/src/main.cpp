@@ -46,6 +46,7 @@ int main()
 	Cube light(CubeType::BASIC);
 
 	Texture texBox("res/container2.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
+	Texture specMap("res/container2_specular.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
 	
 	// ************************************************
 	// Shader program
@@ -59,6 +60,7 @@ int main()
 
 	// Set uniforms
 	shader.SetInt("material.diffuse", 0);
+	shader.SetInt("material.specular", 1);
 
 	// ************************************************
 	// Create Model View Projection matrix
@@ -77,7 +79,6 @@ int main()
 	shader.SetVec3("light.position", lightPos);
 	shader.SetVec3("viewPos", app.GetCamPos());
 
-	shader.SetVec3("material.specular", glm::vec3(0.5f, 0.5f, 0.5f));
 	shader.SetFloat("material.shininess", 32.0f);
 
 	shader.SetVec3("light.ambient", glm::vec3(0.2f, 0.2f, 0.2f));
@@ -96,7 +97,7 @@ int main()
 		// Rendering
 		app.UpdateFrameTime();
 
-		shader.SetClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+		shader.SetClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		shader.Use();
 
@@ -111,6 +112,9 @@ int main()
 		shader.SetMat4("projection", projection);
 
 		texBox.Activate(0);
+		texBox.Bind();
+
+		specMap.Activate(1);
 		texBox.Bind();
 
 		c.Draw();
