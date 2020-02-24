@@ -7,6 +7,9 @@
 #include "VertexBuffer.h"
 
 #include <glad/glad.h>
+#include <vector>
+
+using namespace std;
 
 enum class CubeType{
 	BASIC, TEXTURE, NORM_BASIC, NORM_TEXTURE
@@ -19,16 +22,18 @@ public:
 	Cube(CubeType type);
 	~Cube();
 
-	void Bind();
+	void Bind(int cubeNo);
 	void Unbind();
 
 	void VBO_Bind();
 	void VBO_Unbind();
 
-	void Draw();
+	void AddCube(CubeType cubeType);
+
+	void Draw(int cubeNo);
 
 private:
-	VertexArray VAO;
+	vector<VertexArray> VAO;
 	VertexBuffer VBO;
 	VertexAttribute cubeLocation;
 	VertexAttribute textureLocation;
@@ -37,10 +42,11 @@ private:
 	unsigned int* indices;
 	DrawType drawType;
 	CubeType cubeType;
+	int numberOfCubes = 0;
 
-	unsigned int noVertices = 80;
+	unsigned int noVertices = 192;
 	const unsigned int noIndices = 36;
-	unsigned int numberOfDataPerVertex = 5;
+	unsigned int numberOfDataPerVertex = 8;
 
 	void TexCubeSetup();
 	void NormTexCubeSetup();

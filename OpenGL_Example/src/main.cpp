@@ -6,6 +6,7 @@
 #include <glm/glm/glm.hpp>
 #include <glm/glm/gtc/matrix_transform.hpp>
 #include <glm/glm/gtc/type_ptr.hpp>
+#include <vector>
 
 // Local headers ********************************
 #include "Shader.h"
@@ -19,8 +20,8 @@
 #include "Cube.h"
 
 // Global constants ********************************
-const int windowWidth = 800;
-const int windowHeight = 600;
+const int windowWidth = 1600;
+const int windowHeight = 1200;
 
 // Global variables ********************************
 
@@ -43,7 +44,8 @@ int main()
 	// ************************************************
 	// Set vertices of a triangle in normalized device coordinates
 	Cube c(CubeType::NORM_TEXTURE);
-	Cube light(CubeType::BASIC);
+
+	c.AddCube(CubeType::BASIC);
 
 	Texture texBox("res/container2.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
 	Texture specMap("res/container2_specular.png", ImageType::PNG, WrapType::REPEAT, FilterType::LINEAR);
@@ -103,6 +105,7 @@ int main()
 
 		glm::mat4 model = glm::mat4(1.0f);
 		model = glm::translate(model, modelPos);
+		model = glm::rotate(model, glm::radians(10 * (float)glfwGetTime()), glm::vec3(1.0f, 0.3f, 0.5f));
 		shader.SetMat4("model", model);
 
 		view = glm::lookAt(app.GetCamPos(), app.GetCamPos() + app.GetCamFront(), app.GetCamUp());
@@ -115,9 +118,9 @@ int main()
 		texBox.Bind();
 
 		specMap.Activate(1);
-		texBox.Bind();
+		specMap.Bind();
 
-		c.Draw();
+		c.Draw(0);
 
 
 		// ************************************************
@@ -136,7 +139,7 @@ int main()
 		projection = glm::perspective(glm::radians(app.GetFOV()), float(windowWidth) / windowHeight, 0.1f, 100.0f);
 		lightingShader.SetMat4("projection", projection);
 		
-		light.Draw();
+		c.Draw(1);
 
 		app.BufferSwapAndPoll();
 	}
