@@ -9,7 +9,6 @@ Cube::Cube()
 
 Cube::Cube(CubeType type)
 {
-	cubeType = type;
 	drawType = DrawType::STATIC;
 	vertices = new float[noVertices] {
 		// positions          // normals           // texture coords
@@ -65,7 +64,7 @@ Cube::Cube(CubeType type)
 			22, 23, 20			// Second triangle
 	};
 
-	AddCube(cubeType);
+	AddCube(type);
 }
 
 Cube::~Cube()
@@ -94,15 +93,15 @@ void Cube::VBO_Unbind()
 	VBO.Unbind();
 }
 
-void Cube::AddCube(CubeType cubeType)
+void Cube::AddCube(CubeType type)
 {
-	if (cubeType == CubeType::BASIC)
+	if (type == CubeType::BASIC)
 		BasicCubeSetup();
-	else if (cubeType == CubeType::TEXTURE)
+	else if (type == CubeType::TEXTURE)
 		TexCubeSetup();
-	else if (cubeType == CubeType::NORM_BASIC)
+	else if (type == CubeType::NORM_BASIC)
 		NormBasicCubeSetup();
-	else if (cubeType == CubeType::NORM_TEXTURE)
+	else if (type == CubeType::NORM_TEXTURE)
 		NormTexCubeSetup();
 	else
 		std::cout << "ERROR::CUBE::CONSTRUCTOR::CUBETYPEFAILURE\n";
@@ -117,8 +116,6 @@ void Cube::Draw(int cubeNo)
 
 void Cube::TexCubeSetup()
 {
-	cubeType = CubeType::TEXTURE;
-
 	VertexArray* tempArray = new VertexArray;
 	VAO.push_back(*tempArray);
 
@@ -149,8 +146,6 @@ void Cube::TexCubeSetup()
 
 void Cube::NormTexCubeSetup()
 {
-	cubeType = CubeType::NORM_TEXTURE;
-
 	VertexArray* tempArray = new VertexArray;
 	VAO.push_back(*tempArray);
 
@@ -186,8 +181,6 @@ void Cube::NormTexCubeSetup()
 
 void Cube::BasicCubeSetup()
 {
-	cubeType = CubeType::BASIC;
-
 	VertexArray* tempArray = new VertexArray;
 	VAO.push_back(*tempArray);
 
@@ -213,8 +206,6 @@ void Cube::BasicCubeSetup()
 
 void Cube::NormBasicCubeSetup()
 {
-	cubeType = CubeType::NORM_BASIC;
-
 	VertexArray* tempArray = new VertexArray;
 	VAO.push_back(*tempArray);
 

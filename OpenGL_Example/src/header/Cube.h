@@ -41,7 +41,6 @@ private:
 	float* vertices;
 	unsigned int* indices;
 	DrawType drawType;
-	CubeType cubeType;
 	int numberOfCubes = 0;
 
 	unsigned int noVertices = 192;
