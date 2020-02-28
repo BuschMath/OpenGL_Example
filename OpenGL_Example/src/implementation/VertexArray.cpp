@@ -43,7 +43,7 @@ void VertexArray::SetVAO_EBO()
 	for (unsigned int i = 0; i < vertexAttributes.size(); i++)
 	{
 		glVertexAttribPointer(vertexAttributes[i].GetID(), vertexAttributes[i].GetSize(), GL_FLOAT, GL_FALSE,
-			vertexStride * sizeof(float), (void*)(vertexAttributes[i].GetOffset() * sizeof(float)));
+			vertexStride, (void*)(vertexAttributes[i].GetOffset()));
 		glEnableVertexAttribArray(vertexAttributes[i].GetID());
 	}
 

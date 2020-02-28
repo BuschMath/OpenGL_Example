@@ -2,9 +2,20 @@
 #define VERTEXBUFFER_H
 
 #include <glad/glad.h>
+#include <glm/glm/glm.hpp>
+#include <glm/glm/gtc/matrix_transform.hpp>
+#include <glm/glm/gtc/type_ptr.hpp>
+#include <vector>
 
 enum class DrawType {
 	STATIC, DYNAMIC, STREAM
+};
+
+struct Vertex
+{
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec2 TexCoords;
 };
 
 class VertexBuffer
@@ -32,6 +43,8 @@ public:
 	// Precondition: Object has been created and ID set.
 	// Postcondition: Data sent to GPU and vertex buffer is deactivated.
 	void SetVertices(float* vertices, int numberOfData, DrawType type);
+
+	void SetVertices(std::vector<Vertex> vertices, DrawType type);
 
 private:
 	unsigned int ID;

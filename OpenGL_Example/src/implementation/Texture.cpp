@@ -9,10 +9,13 @@ Texture::Texture()
 {
 	ID = 0;
 	std::cout << "ERROR::CALL_DEFALUT_TEXTURE_CONSTRUCTOR\n";
+	texType = TextureType::diffuse;
 }
 
-Texture::Texture(std::string location, ImageType type, WrapType wrap, FilterType filter)
+Texture::Texture(std::string location, ImageType type, WrapType wrap, FilterType filter, TextureType textureType)
 {
+	texType = textureType;
+
 	glGenTextures(1, &ID);
 	glActiveTexture(ID);
 	Bind();

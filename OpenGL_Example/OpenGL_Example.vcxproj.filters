@@ -32,6 +32,7 @@
     <ClCompile Include="src\implementation\Camera.cpp" />
     <ClCompile Include="src\implementation\App.cpp" />
     <ClCompile Include="src\implementation\Cube.cpp" />
+    <ClCompile Include="src\implementation\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="vendor">
@@ -72,6 +73,7 @@
     <ClInclude Include="src\header\Camera.h" />
     <ClInclude Include="src\header\App.h" />
     <ClInclude Include="src\header\Cube.h" />
+    <ClInclude Include="src\header\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.shader">

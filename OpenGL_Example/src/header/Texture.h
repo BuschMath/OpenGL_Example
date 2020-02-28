@@ -18,11 +18,16 @@ enum class ImageType
 	JPG, PNG
 };
 
+enum class TextureType
+{
+	diffuse, specular
+};
+
 class Texture
 {
 public:
 	Texture();
-	Texture(std::string location, ImageType type, WrapType wrap, FilterType filter);
+	Texture(std::string location, ImageType type, WrapType wrap, FilterType filter, TextureType textureType);
 
 	~Texture();
 
@@ -32,12 +37,14 @@ public:
 	void Activate(unsigned int i);
 
 	unsigned int GetID() { return ID; };
+	TextureType GetTexType() { return texType; };
 
 	// Expects vector of four elements RGBA, only needed if CLAMP_BOARDER is set
 	void SetBoarderColor(float* color);
 
 private:
 	unsigned int ID;
+	TextureType texType;
 };
 
 #endif // !TEXTURE_H
