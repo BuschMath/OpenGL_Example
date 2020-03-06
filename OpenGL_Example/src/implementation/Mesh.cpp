@@ -45,7 +45,7 @@ void Mesh::Draw(Shader shader)
 			number = std::to_string(diffuseNr++);
 			break;
 
-		case TextureType::specular:	name = "texture_specular";
+		case TextureType::specular:	name = "texture_specular"; 
 			number = std::to_string(specularNr++);
 			break;
 

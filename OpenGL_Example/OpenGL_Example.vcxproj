@@ -155,6 +155,7 @@
     <ClCompile Include="src\implementation\Camera.cpp" />
     <ClCompile Include="src\implementation\Cube.cpp" />
     <ClCompile Include="src\implementation\ElementBuffer.cpp" />
+    <ClCompile Include="src\implementation\Model.cpp" />
     <ClCompile Include="src\implementation\Texture.cpp" />
     <ClCompile Include="src\implementation\VertexArray.cpp" />
     <ClCompile Include="src\implementation\VertexAttribute.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="src\header\ElementBuffer.h" />
     <ClInclude Include="src\header\Camera.h" />
     <ClInclude Include="src\header\Mesh.h" />
+    <ClInclude Include="src\header\Model.h" />
     <ClInclude Include="src\header\Shader.h" />
     <ClInclude Include="src\header\Texture.h" />
     <ClInclude Include="src\header\VertexArray.h" />
