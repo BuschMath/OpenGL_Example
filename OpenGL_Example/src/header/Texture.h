@@ -38,6 +38,7 @@ public:
 
 	unsigned int GetID() { return ID; };
 	TextureType GetTexType() { return texType; };
+	std::string GetPath() { return path; };
 
 	// Expects vector of four elements RGBA, only needed if CLAMP_BOARDER is set
 	void SetBoarderColor(float* color);
@@ -45,6 +46,7 @@ public:
 private:
 	unsigned int ID;
 	TextureType texType;
+	std::string path;
 };
 
 #endif // !TEXTURE_H

@@ -29,11 +29,21 @@
     <ClCompile Include="src\implementation\Window.cpp">
       <Filter>implementation</Filter>
     </ClCompile>
-    <ClCompile Include="src\implementation\Camera.cpp" />
-    <ClCompile Include="src\implementation\App.cpp" />
-    <ClCompile Include="src\implementation\Cube.cpp" />
-    <ClCompile Include="src\implementation\Mesh.cpp" />
-    <ClCompile Include="src\implementation\Model.cpp" />
+    <ClCompile Include="src\implementation\App.cpp">
+      <Filter>implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implementation\Camera.cpp">
+      <Filter>implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implementation\Cube.cpp">
+      <Filter>implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implementation\Mesh.cpp">
+      <Filter>implementation</Filter>
+    </ClCompile>
+    <ClCompile Include="src\implementation\Model.cpp">
+      <Filter>implementation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="vendor">
@@ -71,21 +81,41 @@
     <ClInclude Include="src\header\Window.h">
       <Filter>header</Filter>
     </ClInclude>
-    <ClInclude Include="src\header\Camera.h" />
-    <ClInclude Include="src\header\App.h" />
-    <ClInclude Include="src\header\Cube.h" />
-    <ClInclude Include="src\header\Mesh.h" />
-    <ClInclude Include="src\header\Model.h" />
+    <ClInclude Include="src\header\App.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\Camera.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\Cube.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\Mesh.h">
+      <Filter>header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\header\Model.h">
+      <Filter>header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="fragmentShader.shader">
       <Filter>shaders</Filter>
     </None>
-    <None Include="vsMVP_woTexture.shader" />
-    <None Include="fsLight.shader" />
-    <None Include="fsLightSource.shader" />
-    <None Include="vsMVP_woTex_DiffuseLight.shader" />
-    <None Include="vsMVP_Lighting.shader" />
+    <None Include="fsLight.shader">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="fsLightSource.shader">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="vsMVP_Lighting.shader">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="vsMVP_woTex_DiffuseLight.shader">
+      <Filter>shaders</Filter>
+    </None>
+    <None Include="vsMVP_woTexture.shader">
+      <Filter>shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertexShader.shader">
